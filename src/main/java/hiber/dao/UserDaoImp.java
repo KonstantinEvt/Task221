@@ -4,7 +4,6 @@ import hiber.model.User;
 import hiber.model.Car;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 
@@ -13,8 +12,11 @@ import java.util.List;
 @Repository
 public class UserDaoImp implements UserDao {
 
-    @Autowired
     private SessionFactory sessionFactory;
+
+    UserDaoImp(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public void add(User user) {
@@ -22,7 +24,7 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public List<User> listUsers() {
+    public List<User> getListUsers() {
         Query<User> query = sessionFactory.getCurrentSession().createQuery("from User", User.class);
         return query.getResultList();
     }
